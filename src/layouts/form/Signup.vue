@@ -1,83 +1,99 @@
 <template>
     <div class="signup-form">
-        <TextInput
-            id="name"
-            v-model.trim="item.name"
-            label="Name"
-            error-label="Please provide a name"
-            :is-error="errors.name"
-            placeholder="John"
-        />
-        <InputEmail
-            id="BankrollNameInput"
-            v-model.trim="item.email"
-            label="Email"
-            error-label="Please provide an email"
-            :is-error="errors.name"
-            placeholder="john@test.com"
-        />
-        <InputPassword
-            id="BankrollNameInput"
-            v-model.trim="item.password"
-            label="Password"
-            error-label="Please provide a password"
-            :is-error="errors.name"
-        />
-        <InputPassword
-            id="BankrollNameInput"
-            v-model.trim="item.confirmPassword"
-            label="Confirm Password"
-            error-label="Please confirm your password"
-            :is-error="errors.name"
-        />
-        <DatePicker
-            id="BankrollNameInput"
-            v-model.trim="item.dateOfBirth"
-            label="Date Of Birth"
-            error-label="Please provide a date of birth"
-            :is-error="errors.name"
-            placeholder="16th June 1993"
-        />
-        <Dropdown
-            id="BankrollNameInput"
-            v-model="item.service"
-            label="Select Service Type"
-            :options="dropdownServiceOptions"
-            :active-option="item.service"
-            error-label="Please provide a service type"
-            :is-error="errors.name"
-            placeholder="Web Development"
-        />
-        <TextInput
-            v-if="item.service === 'other'"
-            id="name"
-            v-model.trim="item.serviceInput"
-            label="Service"
-            error-label="Please provide a service type"
-            :is-error="errors.name"
-            placeholder="Other (Please Specify)"
-        />
-        <Checkbox
-            id="BankrollNameInput"
-            v-model.trim="item.terms"
-            label="Terms And Conditions (Required)"
-            error-label="Please agree to our terms and conditions"
-            :is-error="errors.name"
-        />
-        <ButtonSubmit
-            button-id="register"
-            label="Register"
-            @submit="handleBack"
-        />
+        <VForm
+            v-slot="{ errors, meta, }"
+            ref="RegisterForm"
+            :validation-schema="formValidationSchema"
+            :initial-values="formData"
+            @submit="handleSubmit"
+        >
+            <InputText
+                id="name"
+                v-model.trim="formData.name"
+                class="spacing"
+                label="Name"
+                :is-error="!!errors.name && meta.dirty"
+                :error-label="errors.name || 'Please provide a name'"
+                placeholder="John"
+            />
+            <InputEmail
+                id="email"
+                v-model.trim="formData.email"
+                class="spacing"
+                label="Email"
+                :is-error="!!errors.email && meta.dirty"
+                :error-label="errors.email || 'Please provide an email'"
+                placeholder="john@test.com"
+            />
+            <InputPassword
+                id="password"
+                v-model.trim="formData.password"
+                class="spacing"
+                label="Password"
+                :is-error="!!errors.terms && meta.dirty"
+                :error-label="errors.terms || 'Please provide a password'"
+            />
+            <InputPassword
+                id="confirmPassword"
+                v-model.trim="formData.confirmPassword"
+                class="spacing"
+                label="Confirm Password"
+                :is-error="!!errors.terms && meta.dirty"
+                :error-label="errors.terms || 'Please confirm your password'"
+            />
+            <DatePicker
+                id="dateOfBirth"
+                :date="formData.dateOfBirth"
+                class="spacing"
+                label="Date Of Birth"
+                placeholder="16th June 1993"
+            />
+            <Dropdown
+                id="service"
+                label="Select Service Type"
+                class="spacing"
+                :options="dropdownServiceOptions"
+                :active-option="formData.service"
+                :is-error="!!errors.terms && meta.dirty"
+                :error-label="errors.terms || 'Please provide a service type'"
+                placeholder="Web Development"
+            />
+            <InputText
+                v-if="formData.service === 'other'"
+                id="serviceInput"
+                v-model.trim="formData.serviceInput"
+                class="spacing"
+                label="Service"
+                :is-error="!!errors.terms && meta.dirty"
+                :error-label="errors.terms || 'Please provide a service type'"
+                placeholder="Other (Please Specify)"
+            />
+            <Checkbox
+                id="terms"
+                v-model.trim="formData.terms"
+                class="spacing"
+                label="Terms And Conditions (Required)"
+                :is-error="!!errors.terms && meta.dirty"
+                :error-label="errors.terms || 'Please agree to our terms and conditions'"
+            />
+            <ButtonSubmit
+                button-id="register"
+                label="Register"
+                class="spacing-top"
+                @submit="handleSubmit"
+            />
+        </VForm>
     </div>
 </template>
 
 <script setup lang="ts">
-import { object, string } from 'yup';
+import { Form as VForm } from 'vee-validate';
+import { object, string, date, boolean } from 'yup';
 
+import { createId } from '~/utils/createId';
 import type { RegisterForm } from '~/types/Forms';
 
-const item = ref<RegisterForm>({
+const formData = ref<RegisterForm>({
     id: createId(),
     name: '',
     email: '',
@@ -89,26 +105,27 @@ const item = ref<RegisterForm>({
     dateOfBirth: null,
 });
 const error = ref(false);
-const errors = ref({
-    name: false,
-    value: false,
-});
-const dropdownServiceOptions = ref([
+const dropdownServiceOptions = [
     'Web Development',
     'Mobile Development',
     'SEO Services',
     'Other (Please Specify)'
-]);
-const formValidationSchema = object({
+];
+
+const formValidationSchema = computed(() => object({
     name: string().required(),
     email: string().email(),
     password: string().required().min(8, 'Must be at least 8 characters').test('includesNumber', 'Password must contain at least one number', (value) => /\d/.test(value)),
-    confirmPassword: string().required().oneOf([yup.ref('password'), null], "Passwords don't match."),
+    confirmPassword: string().required()
+    // .oneOf([ref('password')], "Passwords don't match.")
+    ,
     service: string().required(),
-    serviceInput: string().required(),
-    terms: string().required().boolean(),
+    serviceInput: string(),
+    terms: boolean().required(),
     dateOfBirth: date().default(() => new Date()),
-});
+}));
+
+console.log(formValidationSchema.value);
 
 function resetValidation() {
     error.value = false;
@@ -120,7 +137,8 @@ function validate() {
     return error.value;
 }
 
-function submit() {
+function handleSubmit() {
+    console.log('hello???');
     if (!validate()) {
         // Submit to API.
     }
@@ -128,5 +146,10 @@ function submit() {
 </script>
 
 <style lang="scss" scoped>
-
+.spacing {
+    margin-bottom: 16px;
+}
+.spacing-top {
+    margin-top: 16px;
+}
 </style>

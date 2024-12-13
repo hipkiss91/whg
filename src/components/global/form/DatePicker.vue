@@ -5,28 +5,19 @@
                 type="submit"
                 @click.prevent="togglePopover"
             >
-                <span class="block text-xs md:text-sm md:hidden">{{ $dayjs(date).format('D/MM/YY') }}</span>
-                <span class="hidden text-xs md:text-sm md:block">{{ $dayjs(date).format('D MMM YYYY') }}</span>
+                {{ DateTime.fromJSDate(new Date(date)).toFormat('D/MM/YY') }}
             </button>
         </template>
     </VDatePicker>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { DateTime } from 'luxon';
 import { DatePicker as VDatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
 
 const props = defineProps<{
-    date: {
-        type: string,
-        default: null,
-    },
-    mode: {
-        validator(value) {
-            return ['date', 'time', 'dateTime',].includes(value);
-        },
-        default: null,
-    },
+    date: string | null,
 }>();
 
 const emits = defineEmits<{
@@ -38,7 +29,7 @@ const attrs = ref([{
     key: 'today',
     dot: 'purple',
     dates: new Date(),
-},]);
+}]);
 </script>
 
 <style lang="scss">

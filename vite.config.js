@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import Vue from '@vitejs/plugin-vue';
 import { ViteAliases } from 'vite-aliases';
 import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
 import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 import svgLoader from 'vite-svg-loader';
@@ -24,7 +25,7 @@ export default defineConfig({
     css: {
         preprocessorOptions: {
             scss: {
-                api: 'modern' // or "modern"
+                api: 'modern-compiler', // or "modern"
             }
         }
     },
@@ -46,7 +47,6 @@ export default defineConfig({
                 '@vueuse/math',
                 '@vueuse/core',
                 '@vueuse/head',
-                'vue/macros',
             ],
             resolvers: [
                 iconResolver
@@ -77,4 +77,4 @@ export default defineConfig({
         }),
         svgLoader(),
     ],
-})
+});

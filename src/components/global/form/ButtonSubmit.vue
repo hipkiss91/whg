@@ -1,13 +1,19 @@
 <template>
-    <button :id="buttonId" :class="className" @click.prevent="emits('submit')">
+    <button
+        :id="buttonId"
+        :class="className"
+        :type="buttonType"
+        @click.prevent="emits('submit')"
+    >
         {{ label }}
     </button>
 </template>
 <script lang="ts" setup>
-const { className = 'primary', label = 'close' } = defineProps<{
+const { className = 'primary', label = 'close', buttonType = 'button' } = defineProps<{
     className?: string
     label?: string
     buttonId?: string
+    buttonType?: string
 }>();
 
 const emits = defineEmits<{

@@ -6,14 +6,6 @@ export default [
     ...pluginVue.configs['flat/recommended'],
     ...vueTsEslintConfig(),
     {
-        // root: true,
-        // env: {
-        //     node: true,
-        // },
-        // extends: [
-        //     'plugin:vue/recommended',
-        //     '@vue/standard',
-        // ],
         rules: {
             /**
              * General Rules
@@ -89,12 +81,6 @@ export default [
                     },
                 },
             ],
-            // 'vue/multi-word-component-names': ['error', {
-            //     'ignores': [
-            //         './src/views/*',
-            //         './src/components/global/*',
-            //     ],
-            // }],
             'vue/no-v-html': 'off',
             'vue/multi-word-component-names': 'off',
             // Turn off forcing new lines for child content of a html element.
@@ -119,18 +105,5 @@ export default [
                 },
             ],
         },
-        // parserOptions: {
-        //     parser: 'babel-eslint',
-        // },
-        // overrides: [
-        //     {
-        //         files: [
-        //             '**/__tests__/*.js',
-        //         ],
-        //         env: {
-        //             jest: true,
-        //         },
-        //     },
-        // ],
     },
 ];

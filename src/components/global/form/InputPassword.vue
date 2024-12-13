@@ -29,7 +29,7 @@ defineProps<{
     isError?: boolean
     errorBorder?: boolean
     errorLabel?: string
-    placeholder: string
+    placeholder?: string
     modelValue: string
 }>();
 

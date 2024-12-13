@@ -4,12 +4,9 @@
             :id="id"
             type="checkbox"
             :checked="modelValue"
-            :disabled="isDisabled"
+            :disabled="disabled"
             @change="update($event.target.checked)"
         >
-        <div
-            class="overflow-hidden bg-gray-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:bg-white after:border-gray-300 after:border after:rounded-full after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 w-11 h-6 after:h-5 after:w-5 after:top-[2px] after:left-[2px]"
-        />
         <span
             v-if="label"
             class="label"
@@ -20,10 +17,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+const { disabled } = defineProps<{
     id: string,
     label?: string,
-    isDisabled: boolean,
+    disabled?: boolean,
     modelValue: boolean,
 }>();
 
@@ -32,7 +29,7 @@ const emits = defineEmits<{
 }>();
 
 function update(value) {
-    if (!props.isDisabled) {
+    if (!disabled) {
         emits('update:modelValue', value);
     }
 }

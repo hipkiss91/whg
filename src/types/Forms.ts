@@ -4,7 +4,8 @@ export type RegisterForm = {
     email: string
     password: string
     confirmPassword: string
-    dateOfBirth: string
+    dateOfBirth: string | null
     service: string
+    serviceInput: string | null
     acceptTerms: boolean
 };
