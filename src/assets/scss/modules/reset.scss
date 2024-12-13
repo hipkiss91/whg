@@ -1,0 +1,56 @@
+html, body {
+    margin: var(--space-00);
+    padding: var(--space-00);
+    width: var(--space-max-w-port);
+    height: var(--space-max-h-port);
+    max-width: var(--space-max-w-port);
+    max-height: var(--space-max-h-port);
+    overflow: hidden;
+}
+
+* {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10+ and Edge */
+    user-select: none; /* Standard syntax */
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+}
+
+button {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: unset;
+}
+
+input, textarea {
+    background-color: transparent;
+    border: none;
+    resize: none;
+    -webkit-user-select: text; /* Safari */
+    -ms-user-select: text; /* IE 10+ and Edge */
+    user-select: text; /* Standard syntax */
+}
+
+select {
+    background-color: transparent;
+    border: none;
+    -webkit-appearance: none;
+}
+
+a {
+    color: var(--color-black);
+    text-decoration: none;
+    /* Disable tap highlighting */
+    -webkit-tap-highlight-color: var(--color-transparent) !important;
+}
+
+:focus{
+    outline: none;
+}

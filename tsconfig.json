@@ -1,0 +1,63 @@
+{
+    "extends": "@vue/tsconfig/tsconfig.json",
+    "compilerOptions": {
+        "noErrorTruncation": true,
+        "noEmit": true,
+        "allowSyntheticDefaultImports": true, // See: https://www.typescriptlang.org/tsconfig#allowSyntheticDefaultImports
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "types": [
+            "node",
+            "vite/client"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "~": [
+                "src"
+            ],
+            "~/*": [
+                "src/*"
+            ],
+            "~assets/*": [
+                "src/assets/*"
+            ],
+            "~components/*": [
+                "src/components/*"
+            ],
+            "~router/*": [
+                "src/router/*"
+            ],
+            "~store/*": [
+                "src/store/*"
+            ],
+            "~utils/*": [
+                "src/utils/*"
+            ],
+            "~pages/*": [
+                "src/pages/*"
+            ],
+            "~data/*": [
+                "src/assets/data/*"
+            ],
+            "~types/*": [
+                "src/types/*"
+            ],
+            "~hooks/*": [
+                "src/hooks/*"
+            ],
+            "~middleware/*": [
+                "src/middleware/*"
+            ]
+        }
+    },
+    "include": [
+        "*.d.ts",
+        "vite.config.ts",
+        "src/**/*.vue",
+        "src/**/*.ts",
+        "tests/**/*"
+    ]
+}
